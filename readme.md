@@ -51,12 +51,7 @@ meaningful way.
 
 [Separate table of Netflix users](https://www.kaggle.com/datasets/arnavsmayan/netflix-userbase-dataset/data), can be used for behavior analysis
 
-4 different, but really similar datasets of movies and shows. Each has a column that the others don't (one has rating, other has genres, etc), so we can pick the appropriate dataset for each of the analyses, or join them together. Listed in by their download popularity
-
-- [First](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-- [Second](https://www.kaggle.com/datasets/ariyoomotade/netflix-data-cleaning-analysis-and-visualization)
-- [Third](https://www.kaggle.com/datasets/narayan63/netflix-popular-movies-dataset)
-- [Fourth](https://www.kaggle.com/datasets/arnavvvvv/netflix-movies-and-tv-shows)
+[A dataset of 8k netflix titles](https://www.kaggle.com/datasets/shivamb/netflix-shows)
 
 [Smaller dataset](https://data.world/gonzandrobles/netflix-movies-and-series) that IMDB ratings (not from kaggle)
 Alternatively, we can use IMDB datasets ourselves
