@@ -1,0 +1,8 @@
+.DS_store
+
+# large datasets
+title.basics.tsv
+title.ratings.tsv
+
+cleaned-imdb-dataset.csv
+

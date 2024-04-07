@@ -60,6 +60,6 @@ meaningful way.
 
 [Smaller dataset](https://data.world/gonzandrobles/netflix-movies-and-series) that IMDB ratings (not from kaggle)
 Alternatively, we can use IMDB datasets ourselves
-[IMDB Dbs](https://datasets.imdbws.com/) – Details about each database can be found here
+[IMDB Dbs](https://datasets.imdbws.com/) – Details about each database can be found [here](https://developer.imdb.com/non-commercial-datasets/)
 
 [Similar dataset](https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows) for Amazon just in case
