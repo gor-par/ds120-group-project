@@ -1,6 +1,6 @@
 # Netflix dataset analysis
 
-Data Analysis using Python or R, by Vanessa Avoyan, Arytom Muradyan, Viktoria Makarian, Gor Parisakoyan
+Data Analysis using Python or R, by Vanesa Avoyan, Arytom Muradyan, Viktoria Makarian, Gor Parisakoyan
 
 **Project Description:** The project involves analyzing data from CSV files using either Python or R
 programming language. The aim of the project is to gain insights into the data and present them in a
