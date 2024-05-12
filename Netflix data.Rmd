@@ -96,7 +96,8 @@ Science fiction, westerns, horror, and crime emerge as the top four most popular
 ```{r}
 voters_favourite_Ms <- dataBestMovies %>%
   group_by(MAIN_GENRE) %>%
-  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES)) %>%
+  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES),
+            SCORE = max(SCORE)) %>%
   arrange(desc(AVERAGE_VOTERS)) %>%
   head(4)
 
@@ -107,6 +108,15 @@ ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS),
   labs(title = "Popularity of genres among viewers (Movies)",
        x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
   coord_cartesian(ylim = c(150, 600)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -SCORE),
+                                        y = SCORE)) +
+  geom_bar(fill = "hotpink", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (TV Shows)",
+       x = "MAIN GENRE", y = "SCORE") +
+  coord_cartesian(ylim = c(7.5, 10)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
@@ -134,7 +144,8 @@ Science fiction, action, thriller, and drama emerge as the top four most popular
 ```{r}
 voters_favourite_Shs <- dataBestShows %>%
   group_by(MAIN_GENRE) %>%
-  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES)) %>%
+  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES),
+            SCORE = max(SCORE)) %>%
   arrange(desc(AVERAGE_VOTERS)) %>%
   head(4)
 
@@ -145,6 +156,15 @@ ggplot(data = voters_favourite_Shs, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS)
   labs(title = "Popularity of genres among viewers (TV Shows)",
        x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
   coord_cartesian(ylim = c(100, 150)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data = voters_favourite_Shs, aes(x = reorder(MAIN_GENRE, -SCORE),
+                                        y = SCORE)) +
+  geom_bar(fill = "plum", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (TV Shows)",
+       x = "MAIN GENRE", y = "SCORE") +
+  coord_cartesian(ylim = c(7.5, 10)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
