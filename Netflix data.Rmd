@@ -113,7 +113,7 @@ ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS),
 ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -SCORE),
                                         y = SCORE)) +
   geom_bar(fill = "hotpink", stat = "identity") +
-  labs(title = "Popularity of genres among viewers (TV Shows)",
+  labs(title = "Popularity of genres among viewers (Movies)",
        x = "MAIN GENRE", y = "SCORE") +
   coord_cartesian(ylim = c(7.5, 10)) +
   theme_minimal() +
