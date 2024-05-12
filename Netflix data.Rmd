@@ -1,0 +1,173 @@
+---
+title: "Netflix data analysis and visualisation"
+output: html_notebook
+---
+
+Importing necessary libraries.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+Importing (reading) the data of Best movies and Shows. Grabbing high-rated movies/shows (min score 6.9)
+
+```{r}
+dataBestMovies <- read.csv("C:/Users/Asus/OneDrive/Desktop/Group project - Netflix/Best Movies Netflix.csv")
+dataBestShows <- read.csv("C:/Users/Asus/OneDrive/Desktop/Group project - Netflix/Best Shows Netflix.csv")
+```
+
+Exploring data & checking for missing values.
+Get data overview & identify missing values.
+Printing summary statistics and checking for missing data.
+Analyzing data distribution and identifying missing values.
+
+```{r}
+has_missingMovie <- sum(is.na(dataBestMovies)) > 0
+has_missingShow <- sum(is.na(dataBestShows)) > 0
+dataBestMovies$MAIN_GENRE <- factor(dataBestMovies$MAIN_GENRE)
+dataBestMovies$MAIN_PRODUCTION <- factor(dataBestMovies$MAIN_PRODUCTION)
+dataBestShows$MAIN_GENRE <- factor(dataBestShows$MAIN_GENRE)
+dataBestShows$MAIN_PRODUCTION <- factor(dataBestShows$MAIN_PRODUCTION)
+print(summary(dataBestMovies))
+print(summary(dataBestShows))
+```
+This code block converts the release dates of movies and shows into their corresponding decades. This will likely be used for further analysis where grouping by decade is important.
+
+```{r}
+group_by_date <- function(DOF) {
+  start_decade <- seq(from = 1980, to = 2020, by = 10)
+  end_decade <- start_decade + 9
+  for (i in length(start_decade):1) {
+    if (DOF >= start_decade[i] & DOF < end_decade[i]) {
+      decade <- paste0(start_decade[i], 's')
+      return (decade)
+    }
+  }
+  if (DOF < start_decade[1]) {
+    return("Released before 1980")
+  } else {
+    return ("Released after 2020")
+  }
+}
+```
+
+Implement DECADES column derived from *group_by_date* function.
+
+```{r}
+dataBestMovies$DECADES <- sapply(dataBestMovies$RELEASE_YEAR, group_by_date)
+dataBestShows$DECADES <- sapply(dataBestShows$RELEASE_YEAR, group_by_date)
+```
+
+Calculating the average score, number of movies for each decade and main genre combination.
+
+```{r}
+grouppedMovies <- dataBestMovies %>%
+  group_by(MAIN_GENRE, DECADES) %>%
+  summarise(SCORE = mean(SCORE),
+            COUNT_OF_MOVIES = n())
+
+grouppedShows <- dataBestShows %>%
+  group_by(MAIN_GENRE, DECADES) %>%
+  summarise(SCORE = mean(SCORE),
+            COUNT_OF_SHOWS = n())
+```
+Visualization of Movies
+
+Popularity of movie genres across different decades using pie charts. Each pie chart will represent a specific decade, with slices depicting the proportion of movies belonging to various genres. This visualization will highlight the dominant genres favored by producers throughout time, with a particular focus on Drama's position as the "absolute champion."
+
+```{r}
+grouppedMovies$DECADES <- factor(grouppedMovies$DECADES, levels = c("Released before 1980", "1980s", "1990s", "2000s", "2010s", "2020s", "Released after 2020"))
+
+ggplot(data = grouppedMovies, aes(x = "", y = COUNT_OF_MOVIES, fill = MAIN_GENRE)) +
+  geom_col(width = 1, position = 'fill') +
+  facet_wrap(.~DECADES, nrow=3, ncol = 3) +
+  labs(title = "Movies by genre per decade",
+       x = "Main Genre",
+       y = "Count") +
+  scale_x_discrete() +
+  coord_polar(theta = "y", start = 0) +
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 5))
+```
+Science fiction, westerns, horror, and crime emerge as the top four most popular genres in your analysis. This variety suggests a broad audience interest across genres that explore imaginative worlds, historical settings, thrilling suspense, and complex characters.The variable that is chosen for this analysis is the number of votes.
+
+```{r}
+voters_favourite_Ms <- dataBestMovies %>%
+  group_by(MAIN_GENRE) %>%
+  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES),
+            SCORE = max(SCORE)) %>%
+  arrange(desc(AVERAGE_VOTERS)) %>%
+  head(4)
+
+print(voters_favourite_Ms)
+
+ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS), y = AVERAGE_VOTERS/1000)) +
+  geom_bar(fill = "pink", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (Movies) (1000s)",
+       x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
+  coord_cartesian(ylim = c(150, 600)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -SCORE),
+                                        y = SCORE)) +
+  geom_bar(fill = "hotpink", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (TV Shows)",
+       x = "MAIN GENRE", y = "SCORE") +
+  coord_cartesian(ylim = c(7.5, 10)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Visualization of TV Shows
+
+Genres with consistently high average scores across decades might be considered universally popular. Genres with fluctuating average scores across decades might indicate evolving audience tastes. Decades with a specific genre consistently scoring high might suggest a period of dominance for that genre.
+
+```{r}
+grouppedShows$DECADES <- factor(grouppedShows$DECADES, levels = c("Released before 1980", "1980s", "1990s", "2000s", "2010s", "2020s", "Released after 2020"))
+
+ggplot(data = grouppedShows, aes(x = "", y = COUNT_OF_SHOWS, fill = MAIN_GENRE)) +
+  geom_col(width = 1, position = "fill") +
+  facet_wrap(.~DECADES, nrow = 3, ncol = 3) +
+  labs(title = "TV Shows by Genre per Decade",
+       x = "Main Genre",
+       y = "Count") +
+  scale_x_discrete() +
+  coord_polar("y", start = 0) + 
+  theme_minimal() +
+  theme(strip.text.x = element_text(size = 5))
+```
+Science fiction, action, thriller, and drama emerge as the top four most popular genres in your analysis. This variety suggests a broad audience interest across genres that explore imaginative worlds, historical settings, thrilling suspense, and complex characters.The variable that is chosen for this analysis is the number of votes.
+
+```{r}
+voters_favourite_Shs <- dataBestShows %>%
+  group_by(MAIN_GENRE) %>%
+  summarise(AVERAGE_VOTERS = mean(NUMBER_OF_VOTES),
+            SCORE = max(SCORE)) %>%
+  arrange(desc(AVERAGE_VOTERS)) %>%
+  head(4)
+
+print(voters_favourite_Shs)
+
+ggplot(data = voters_favourite_Shs, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS), y = AVERAGE_VOTERS/1000)) +
+  geom_bar(fill = "purple", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (TV Shows) (1000s)",
+       x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
+  coord_cartesian(ylim = c(100, 150)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplot(data = voters_favourite_Shs, aes(x = reorder(MAIN_GENRE, -SCORE),
+                                        y = SCORE)) +
+  geom_bar(fill = "plum", stat = "identity") +
+  labs(title = "Popularity of genres among viewers (TV Shows)",
+       x = "MAIN GENRE", y = "SCORE") +
+  coord_cartesian(ylim = c(7.5, 10)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+
+
