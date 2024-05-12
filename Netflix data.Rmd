@@ -8,7 +8,6 @@ Importing necessary libraries.
 ```{r}
 library(dplyr)
 library(ggplot2)
-library(scales)
 ```
 
 Importing (reading) the data of Best movies and Shows. Grabbing high-rated movies/shows (min score 6.9)
