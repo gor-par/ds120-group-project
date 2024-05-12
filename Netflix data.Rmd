@@ -82,7 +82,7 @@ grouppedMovies$DECADES <- factor(grouppedMovies$DECADES, levels = c("Released be
 ggplot(data = grouppedMovies, aes(x = "", y = COUNT_OF_MOVIES, fill = MAIN_GENRE)) +
   geom_col(width = 1, position = 'fill') +
   facet_wrap(.~DECADES, nrow=3, ncol = 3) +
-  labs(title = "Movie genres by their decades",
+  labs(title = "Movies by genre per decade",
        x = "Main Genre",
        y = "Count") +
   scale_x_discrete() +
@@ -104,7 +104,7 @@ print(voters_favourite_Ms)
 
 ggplot(data = voters_favourite_Ms, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS), y = AVERAGE_VOTERS/1000)) +
   geom_bar(fill = "pink", stat = "identity") +
-  labs(title = "Popularity of genres among viewers (Movies)",
+  labs(title = "Popularity of genres among viewers (Movies) (1000s)",
        x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
   coord_cartesian(ylim = c(150, 600)) +
   theme_minimal() +
@@ -130,7 +130,7 @@ grouppedShows$DECADES <- factor(grouppedShows$DECADES, levels = c("Released befo
 ggplot(data = grouppedShows, aes(x = "", y = COUNT_OF_SHOWS, fill = MAIN_GENRE)) +
   geom_col(width = 1, position = "fill") +
   facet_wrap(.~DECADES, nrow = 3, ncol = 3) +
-  labs(title = "Number of TV Shows by Genre per Decade",
+  labs(title = "TV Shows by Genre per Decade",
        x = "Main Genre",
        y = "Count") +
   scale_x_discrete() +
@@ -152,7 +152,7 @@ print(voters_favourite_Shs)
 
 ggplot(data = voters_favourite_Shs, aes(x = reorder(MAIN_GENRE, -AVERAGE_VOTERS), y = AVERAGE_VOTERS/1000)) +
   geom_bar(fill = "purple", stat = "identity") +
-  labs(title = "Popularity of genres among viewers (TV Shows)",
+  labs(title = "Popularity of genres among viewers (TV Shows) (1000s)",
        x = "MAIN GENRE", y = "NUMBER OF VOTERS") +
   coord_cartesian(ylim = c(100, 150)) +
   theme_minimal() +
