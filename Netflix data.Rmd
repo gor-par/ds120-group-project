@@ -13,8 +13,8 @@ library(ggplot2)
 Importing (reading) the data of Best movies and Shows. Grabbing high-rated movies/shows (min score 6.9)
 
 ```{r}
-dataBestMovies <- read.csv("C:/Users/Asus/OneDrive/Desktop/Group project - Netflix/Best Movies Netflix.csv")
-dataBestShows <- read.csv("C:/Users/Asus/OneDrive/Desktop/Group project - Netflix/Best Shows Netflix.csv")
+dataBestMovies <- read.csv("./Best Movies Netflix.csv")
+dataBestShows <- read.csv("./Best Shows Netflix.csv")
 ```
 
 Exploring data & checking for missing values.
